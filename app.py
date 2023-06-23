@@ -103,6 +103,19 @@ def read_members():
     employees = Employee.query.filter_by(company=company).all()
     return render_template("view-members.html", current_user=current_user, is_admin=is_admin(), employees=employees)
 
+@app.route("/edit-member/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit_member(id):
+    employee = db.session.get(Employee, id)
+    if request.method == "POST":
+        employee.ename = request.form.get("name")
+        employee.email = request.form.get("email")
+        employee.password = request.form.get("password")
+        employee.is_admin = request.form.get("isAdmin")
+        db.session.commit()
+        return redirect(url_for("read_members"))
+    return render_template("edit-members.html", current_user=current_user, is_admin=is_admin(), employee=employee)
+
 @app.route("/add-customer", methods=["GET", "POST"])
 @login_required
 def add_customer():
