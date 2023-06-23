@@ -1,4 +1,12 @@
 {% include "header.html" %}
+
+  {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+              <script>window.alert('{{ message }}')</script>
+              {% endfor %}
+          {% endif %}
+        {% endwith %}
 <main id="main" class="main">
     <div class="card col-10">
         <div class="card-body ">

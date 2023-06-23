@@ -150,9 +150,12 @@ def create_member():
             email=email,
             is_admin=int(isAdmin)
         )
-        db.session.add(new_employee)
-        db.session.commit()
-        add_activity(f"created {ename} employee")
+        try:
+            db.session.add(new_employee)
+            db.session.commit()
+            add_activity(f"created {ename} employee")
+        except:
+            flash("Employee is already working for this or another organization")
         return redirect(url_for('create_member'))
     return render_template("create-member.html", current_user=current_user, is_admin=is_admin())
 
@@ -161,7 +164,8 @@ def create_member():
 def read_members():
     company = current_user.company
     employees = Employee.query.filter_by(company=company).all()
-    return render_template("view-members.html", current_user=current_user, is_admin=is_admin(), employees=employees)
+    employees_size = len(employees)
+    return render_template("view-members.html", employees_size = employees_size, current_user=current_user, is_admin=is_admin(), employees=employees)
 
 @app.route("/edit-member/<int:id>", methods=["GET", "POST"])
 @login_required
@@ -176,6 +180,15 @@ def edit_member(id):
         return redirect(url_for('read_members'))
 
     return render_template("edit-members.html", employee=employee, is_admin=is_admin())
+
+@app.route("/delete-member/<int:id>", methods=["GET", "POST"])
+@login_required
+def delete_member(id):
+    employee = db.session.get(Employee, id)
+    db.session.delete(employee)
+    db.session.commit()
+    add_activity(f"deleted customer {employee.ename}")
+    return redirect(url_for('read_members'))
 
 @app.route("/add-customer", methods=["GET", "POST"])
 @login_required
@@ -223,6 +236,7 @@ def edit_customer(id):
 def read_customers():
     company = current_user.company
     customers = Customer.query.filter_by(company=company).all()
+    customer_size = len(customers)
     if request.method == "POST":
         for customer in customers:
             is_checked = request.form.get(str(customer.id))
@@ -238,7 +252,16 @@ def read_customers():
                     send_sms(6305461499, message)
                     send_whatsapp(6305461499, message)
         return redirect(url_for('read_customers'))
-    return render_template("view-customer.html", current_user=current_user, is_admin=is_admin(), customers=customers)
+    return render_template("view-customer.html",customer_size = customer_size, current_user=current_user, is_admin=is_admin(), customers=customers)
+
+@app.route("/delete-customer/<int:id>", methods=["GET", "POST"])
+@login_required
+def delete_customer(id):
+    customer = db.session.get(Customer, id)
+    db.session.delete(customer)
+    db.session.commit()
+    add_activity(f"deleted customer {customer.name}")
+    return redirect(url_for('read_customers'))
 
 # Login Manager
 @app.route("/login", methods=["GET", "POST"])
