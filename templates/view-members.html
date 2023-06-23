@@ -1,0 +1,50 @@
+{% include "header.html" %}
+
+
+<main id="main" class="main">
+
+  <form style="margin-top: 10vh; width: 60vw; margin-left: 10vw;" method="POST" action="{{ url_for('read_members') }}">
+    <!-- <p>Enter the Message</p>
+    <label>Message</label>
+    <input type="text" placeholder="Enter Message" name="message" class="card-input" required> -->
+
+    <div class="card-body">
+      <!-- <h5 class="card-title">Table with stripped rows</h5> -->
+      <!-- Table with stripped rows -->
+      <div class="card">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <!-- <th scope="col">Age</th> -->
+              <th scope="col">Admin</th>
+              <th scope="col">Start Date</th>
+            </tr>
+          </thead>
+          {% for i in employees%}
+
+          <tr>
+            <th scope="row">{{ i.id }}</th>
+            <td>{{i.ename}}</td>
+            <td>{{i.email}}</td>
+            {% if i.is_admin == 1: %}
+                <td>Yes</td>
+            {% else: %}
+                <td>No</td>
+            {% endif %}
+            <td>2011-04-19</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <!-- End Table with stripped rows -->
+
+
+      </div>
+    </div>
+  </form>
+</main>
+
+{% include "footer.html" %}

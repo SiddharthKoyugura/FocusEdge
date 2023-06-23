@@ -1,0 +1,52 @@
+{% include "header.html" %}
+<main id="main" class="main">
+    <div class="card col-10">
+        <div class="card-body ">
+        <h5 class="card-title">Edit Employe</h5>
+
+        <!-- Vertical Form -->
+        <form class="row g-3 justify-content-center">
+            <div class="col-12">
+            <label for="inputNanme4" class="form-label">Employe Name</label>
+            <input type="text" class="form-control" id="inputNanme4">
+            </div>
+            <div class="col-12">
+                <label for="inputNanme4" class="form-label">Company Name</label>
+                <input type="text" class="form-control" id="inputNanme4">
+            </div>
+            <div class="col-12">
+            <label for="inputEmail4" class="form-label">Employe Email</label>
+            <input type="email" class="form-control" id="inputEmail4">
+            </div>
+            <div class="col-12">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" class="form-control" id="inputPassword4">
+            </div>
+            <br>
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">Access</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" >
+                    <label class="form-check-label" for="gridRadios1">
+                      Is Admin
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" checked>
+                    <label class="form-check-label" for="gridRadios2">
+                      Not Admin
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form><!-- Vertical Form -->
+
+        </div>
+    </div>
+</main>
+{% include "footer.html" %}
