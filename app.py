@@ -33,17 +33,36 @@ class Customer(db.Model):
     can_email= db.Column(db.Integer, nullable=False)
     can_mobile= db.Column(db.Integer, nullable=False)
 
+class Activity(db.Model):
+    __tablename__="activity"
+    id = db.Column(db.Integer, primary_key=True)
+    company = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    date = db.Column(db.Text, nullable=False)
+
 with app.app_context():
     db.create_all()
 
-# configuration of mail
-app.config['MAIL_SERVER']='smtp.gmail.com'
+# Mail Config
+app.config['MAIL_SERVER']='smtp.mail.yahoo.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'nannapravalika566@gmail.com'
-app.config['MAIL_PASSWORD'] = 'diizvvdawrwsdyuo'
+app.config['MAIL_USERNAME'] = 'koyugurasiddhardha@yahoo.com'
+app.config['MAIL_PASSWORD'] = 'qmekhjvrpzxylryn'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+
 mail = Mail(app)
+
+# User-defined functions
+def send_mail(email, header, message):
+    msg = Message(header, 
+                            sender='koyugurasiddhardha@yahoo.com', 
+                            recipients=[email])
+    # set the body of the email
+    msg.body = message
+    # send the email
+    mail.send(msg)
+    print("Hello")
 
 # Login Manager
 login_manager = LoginManager()
@@ -74,7 +93,9 @@ def load_user(user_id):
 @app.route("/home")
 @login_required
 def home():
-    return render_template("index.html", current_user=current_user, is_admin=is_admin())
+    company = current_user.company
+    activities = Activity.query.filter_by(company=company).all()[::-1]
+    return render_template("index.html", current_user=current_user,activities=activities, is_admin=is_admin())
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
@@ -167,19 +188,16 @@ def read_customers():
                 message = request.form.get("message")
                 if customer.can_email == 1:
                     try:
-                        msg = Message(
-                        f'From {customer.company}',
-                        sender ='nannapravalika566@gmail.com',
-                        recipients = customer.email
-                        )
-                        msg.body = message
-                        mail.send(msg)
+                        send_mail(email=customer.email, header=f'From {customer.company}', message=message)
                     except:
-                        pass
+                        print("mail not sent")
 
                 if customer.can_mobile == 1:
-                    send_sms(6305461499, message)
-                    send_whatsapp(6305461499, message)
+                    try:
+                        send_sms(6305461499, message)
+                        send_whatsapp(6305461499, message)
+                    except:
+                        pass
         return redirect(url_for('read_customers'))
     return render_template("view-customer.html", current_user=current_user, is_admin=is_admin(), customers=customers)
 

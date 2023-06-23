@@ -4,7 +4,7 @@ from twilio.rest import Client
 # TWilio API
 
 account_sid = 'AC84b20c240a5fc9b1c1a974c1418b4c52'
-auth_token = '0e2222dee0152e7c34c580992ba8b98a'
+auth_token = '1fd4a8c5b4cfb43a30ca02353adb7d3d'
 client = Client(account_sid, auth_token)
 def send_whatsapp(number, msg):
     message = client.messages.create(
@@ -22,4 +22,4 @@ def send_sms(number, msg):
                           ) 
     print(message.sid)
 
-# send_sms(6305461499 ,"It's working")
+send_sms(6305461499 ,"It's working")
