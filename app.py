@@ -43,14 +43,26 @@ class Activity(db.Model):
 with app.app_context():
     db.create_all()
 
-# configuration of mail
-app.config['MAIL_SERVER']='smtp.gmail.com'
+# Mail Config
+app.config['MAIL_SERVER']='smtp.mail.yahoo.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'nannapravalika566@gmail.com'
-app.config['MAIL_PASSWORD'] = 'diizvvdawrwsdyuo'
+app.config['MAIL_USERNAME'] = 'koyugurasiddhardha@yahoo.com'
+app.config['MAIL_PASSWORD'] = 'qmekhjvrpzxylryn'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+
 mail = Mail(app)
+
+# User-defined functions
+def send_mail(email, header, message):
+    msg = Message(header, 
+                            sender='koyugurasiddhardha@yahoo.com', 
+                            recipients=[email])
+    # set the body of the email
+    msg.body = message
+    # send the email
+    mail.send(msg)
+    print("Hello")
 
 # Login Manager
 login_manager = LoginManager()
@@ -176,13 +188,7 @@ def read_customers():
                 message = request.form.get("message")
                 if customer.can_email == 1:
                     try:
-                        msg = Message(
-                        f'From {customer.company}',
-                        sender ='nannapravalika566@gmail.com',
-                        recipients = customer.email
-                        )
-                        msg.body = message
-                        mail.send(msg)
+                        send_mail(email=customer.email, header=f'From {customer.company}', message=message)
                     except:
                         print("mail not sent")
 
