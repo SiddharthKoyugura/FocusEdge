@@ -16,25 +16,12 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
 
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">Admins</h5>
@@ -56,19 +43,6 @@
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">Employees </h5>
@@ -92,19 +66,6 @@
 
               <div class="card info-card customers-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
                   <h5 class="card-title">Customers </span></h5>
 
@@ -125,50 +86,42 @@
 
             <!-- Reports -->
 <!-- Right side columns -->
-<div class="d-flex justify-content-between">
+<div class="row">
 
   <!-- Recent Activity -->
-  <div class="card">
+  <div class="card col-lg-5">
     <div class="card-body">
       <h5 class="card-title">Recent Activity </h5>
 
       <div class="activity">
-        {% for a in activities %}
+        {% if activities: %}
+          {% for a in activities %}
 
-        <div class="activity-item d-flex">
-          <div class="activite-label">{{a.date}}</div>
-          <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-          <div class="activity-content">
-            {{a.title}} <a href="#" class="fw-bold text-dark">sent</a>
+            <div class="activity-item d-flex">
+              <div class="activite-label">{{a.date}}</div>
+              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+              <div class="activity-content">
+                {{a.title}}
+              </div>
+            </div><!-- End activity item-->
+
+          {% endfor %}
+        {% else: %}
+          <div class="container d-flex justify-content-center align-items-center" style="height: 250px;">
+            <div class=" ">
+              <span class="fw-bold text-primary display-6">No Activity!<i class="bi bi-emoji-frown"></i></span>
+            </div>
           </div>
-        </div><!-- End activity item-->
-
-        {% endfor %}
+        {% endif %}
         
 
       </div>
 
     </div>
   </div><!-- End Recent Activity -->
-
-  <!-- Budget Report -->
-  <!-- End Budget Report -->
-
+  <div class="col-lg-1"></div>
   <!-- Website Traffic -->
-  <div class="card">
-    <div class="filter">
-      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-        <li class="dropdown-header text-start">
-          <h6>Filter</h6>
-        </li>
-
-        <li><a class="dropdown-item" href="#">Today</a></li>
-        <li><a class="dropdown-item" href="#">This Month</a></li>
-        <li><a class="dropdown-item" href="#">This Year</a></li>
-      </ul>
-    </div>
-
+  <div class="card col-lg-6">
     <div class="card-body pb-0">
       <h5 class="card-title">Data Graph</h5>
 
@@ -237,19 +190,6 @@
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
                   <h5 class="card-title">Customers with E-Mail Preference</h5>
 
@@ -282,20 +222,6 @@
             <!-- Top Selling -->
             <div class="col-12">
               <div class="card top-selling overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body pb-0">
                   <h5 class="card-title">Customers with SMS Preference</h5>
 
@@ -310,10 +236,12 @@
                     </thead>
                     <tbody>
                       {% for mobile in mobile_list: %}
-                        <th scope="row"><a href="{{ url_for('edit_customer', id=mobile.id) }}">{{ mobile.id }}</a></th>
-                        <td>{{ mobile.name }}</td>
-                        <td>{{ mobile.email }}</td>
-                        <td>{{ mobile.mobile }}</td>
+                        <tr>
+                          <th scope="row"><a href="{{ url_for('edit_customer', id=mobile.id) }}">{{ mobile.id }}</a></th>
+                          <td>{{ mobile.name }}</td>
+                          <td>{{ mobile.email }}</td>
+                          <td>{{ mobile.mobile }}</td>
+                        </tr>
                       {% endfor %}
                     </tbody>
                   </table>

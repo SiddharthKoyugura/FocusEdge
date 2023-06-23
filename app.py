@@ -105,7 +105,7 @@ def load_user(user_id):
 @login_required
 def home():
     company = current_user.company
-    activities = Activity.query.filter_by(company=company).all()[::-1]
+    activities = Activity.query.filter_by(company=company).all()[::-1][:6]
     customers = Customer.query.filter_by(company=company).all()
     employees = Employee.query.filter_by(company=company).all()
     customercount, admincount, employeescount, emailcount, phonecount = len(customers), 0, len(employees), 0, 0
