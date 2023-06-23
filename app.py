@@ -190,7 +190,7 @@ def delete_member(id):
     employee = db.session.get(Employee, id)
     db.session.delete(employee)
     db.session.commit()
-    add_activity(f"deleted customer {employee.ename}")
+    add_activity(f"deleted employee {employee.ename}")
     return redirect(url_for('read_members'))
 
 @app.route("/add-customer", methods=["GET", "POST"])
