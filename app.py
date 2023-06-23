@@ -81,7 +81,9 @@ def load_user(user_id):
 @app.route("/home")
 @login_required
 def home():
-    return render_template("index.html", current_user=current_user, is_admin=is_admin())
+    company = current_user.company
+    activities = Activity.query.filter_by(company=company).all()[::-1]
+    return render_template("index.html", current_user=current_user,activities=activities, is_admin=is_admin())
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
