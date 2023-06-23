@@ -177,6 +177,7 @@ def edit_member(id):
         employee.name = request.form.get("ename")
         employee.email = request.form.get("email")
         employee.is_admin = request.form.get("isAdmin")
+        employee.designation = request.form.get("designation")
         db.session.commit()
         add_activity(f"Updated {request.form.get('name')} data")
         return redirect(url_for('read_members'))
