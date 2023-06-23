@@ -33,6 +33,13 @@ class Customer(db.Model):
     can_email= db.Column(db.Integer, nullable=False)
     can_mobile= db.Column(db.Integer, nullable=False)
 
+class Activity(db.Model):
+    __tablename__="activity"
+    id = db.Column(db.Integer, primary_key=True)
+    company = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    date = db.Column(db.Text, nullable=False)
+
 with app.app_context():
     db.create_all()
 
@@ -175,11 +182,14 @@ def read_customers():
                         msg.body = message
                         mail.send(msg)
                     except:
-                        pass
+                        print("mail not sent")
 
                 if customer.can_mobile == 1:
-                    send_sms(6305461499, message)
-                    send_whatsapp(6305461499, message)
+                    try:
+                        send_sms(6305461499, message)
+                        send_whatsapp(6305461499, message)
+                    except:
+                        pass
         return redirect(url_for('read_customers'))
     return render_template("view-customer.html", current_user=current_user, is_admin=is_admin(), customers=customers)
 
