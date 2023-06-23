@@ -4,6 +4,7 @@ from flask_mail import Mail, Message
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 from functools import wraps
 from send_notify import *
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -33,6 +34,13 @@ class Customer(db.Model):
     can_email= db.Column(db.Integer, nullable=False)
     can_mobile= db.Column(db.Integer, nullable=False)
 
+class Activity(db.Model):
+    __tablename__ = "activities"
+    id = db.Column(db.Integer, primary_key = True)
+    company = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    date = db.Column(db.Text, nullable=False)
+
 with app.app_context():
     db.create_all()
 
@@ -56,6 +64,18 @@ def send_mail(email, header, message):
     # send the email
     mail.send(msg)
     print("Hello")
+
+def add_activity(title):
+    current_date = datetime.now()
+    formatted_date = current_date.strftime("%d %B")
+    new_activity = Activity(
+        company = current_user.company,
+        title=title,
+        date=formatted_date
+    )
+    db.session.add(new_activity)
+    db.session.commit()
+
 
 # Login Manager
 login_manager = LoginManager()
@@ -81,12 +101,13 @@ def admin_only(f):
 @login_manager.user_loader
 def load_user(user_id):
     return Employee.query.get(user_id)
-
  
 @app.route("/home")
 @login_required
 def home():
-    return render_template("index.html", current_user=current_user, is_admin=is_admin())
+    company = current_user.company
+    activites = Activity.query.filter_by(company=company).all()[::-1]
+    return render_template("index.html", activites=activites, current_user=current_user, is_admin=is_admin())
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
