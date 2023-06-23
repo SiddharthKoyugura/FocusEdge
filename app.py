@@ -106,7 +106,25 @@ def load_user(user_id):
 def home():
     company = current_user.company
     activities = Activity.query.filter_by(company=company).all()[::-1]
-    return render_template("index.html", activities=activities, current_user=current_user, is_admin=is_admin())
+    customers = Customer.query.filter_by(company=company).all()
+    employees = Employee.query.filter_by(company=company).all()
+    customercount, admincount, employeescount, emailcount, phonecount = len(customers), 0, len(employees), 0, 0
+    for customer in customers:
+        if customer.can_email == 1: emailcount += 1
+        if customer.can_mobile == 1: phonecount += 1
+    for employee in employees:
+        if employee.is_admin == 1: admincount += 1
+
+    return render_template("index.html",
+                            activities=activities,
+                            customercount=customercount, 
+                            emailcount=emailcount,
+                            phonecount=phonecount,
+                            employeescount=employeescount, 
+                            admincount=admincount, 
+                            current_user=current_user, 
+                            is_admin=is_admin()
+                        )
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
