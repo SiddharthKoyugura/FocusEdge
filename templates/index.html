@@ -266,7 +266,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Customers with E-Mail Preference</h5>
 
-                  <table class="table table-borderless datatable">
+                  <table class="table table-borderless">
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
@@ -276,40 +276,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">brandonjacob@mail.com</a></td>
-                        <td>9876543210</td>
-                        
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">bridiekessler@mail.com</a></td>
-                        <td>9877766534</td>
-                        
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">ashleighlangosh@mail.com</a></td>
-                        <td>6754328719</td>
-                      </tr>
-                     <!-- <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>₹67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>₹165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>-->
+                      {% for email in email_list: %}
+                        <tr>
+                          <th scope="row"><a href="{{ url_for('edit_customer', id=email.id) }}">{{ email.id }}</a></th>
+                          <td>{{ email.name }}</td>
+                          <td>{{ email.email }}</td>
+                          <td>{{ email.mobile }}</td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
 
@@ -348,26 +322,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                          <th scope="row"><a href="#">#2457</a></th>
-                          <td>Brandon Jacob</td>
-                          <td><a href="#" class="text-primary">brandonjacob@mail.com</a></td>
-                          <td>9876543210</td>
-                          
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2147</a></th>
-                          <td>Bridie Kessler</td>
-                          <td><a href="#" class="text-primary">bridiekessler@mail.com</a></td>
-                          <td>9877766534</td>
-                          
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td><a href="#" class="text-primary">ashleighlangosh@mail.com</a></td>
-                          <td>6754328719</td>
-                        </tr>
+                      {% for mobile in mobile_list: %}
+                        <th scope="row"><a href="{{ url_for('edit_customer', id=mobile.id) }}">{{ mobile.id }}</a></th>
+                        <td>{{ mobile.name }}</td>
+                        <td>{{ mobile.email }}</td>
+                        <td>{{ mobile.mobile }}</td>
+                      {% endfor %}
                     </tbody>
                   </table>
 

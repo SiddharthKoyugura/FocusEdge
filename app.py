@@ -109,9 +109,15 @@ def home():
     customers = Customer.query.filter_by(company=company).all()
     employees = Employee.query.filter_by(company=company).all()
     customercount, admincount, employeescount, emailcount, phonecount = len(customers), 0, len(employees), 0, 0
+    email_list, mobile_list = [], []
     for customer in customers:
-        if customer.can_email == 1: emailcount += 1
-        if customer.can_mobile == 1: phonecount += 1
+        if customer.can_email == 1:
+            emailcount += 1
+            email_list.append(customer)
+        if customer.can_mobile == 1:
+            phonecount += 1
+            mobile_list.append(customer)
+
     for employee in employees:
         if employee.is_admin == 1: admincount += 1
 
@@ -122,6 +128,8 @@ def home():
                             phonecount=phonecount,
                             employeescount=employeescount, 
                             admincount=admincount, 
+                            email_list=email_list,
+                            mobile_list=mobile_list,
                             current_user=current_user, 
                             is_admin=is_admin()
                         )
