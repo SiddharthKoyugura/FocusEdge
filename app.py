@@ -22,6 +22,7 @@ class Employee(UserMixin, db.Model):
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     company = db.Column(db.Text, nullable=False)
+    designation = db.Column(db.Text, nullable=False)
     is_admin = db.Column(db.Integer, nullable=False)
 
 class Customer(db.Model):
@@ -147,6 +148,7 @@ def create_member():
             ename=ename, 
             password=password, 
             company=company, 
+            designation=request.form.get("designation"),
             email=email,
             is_admin=int(isAdmin)
         )
@@ -238,19 +240,32 @@ def read_customers():
     customers = Customer.query.filter_by(company=company).all()
     customer_size = len(customers)
     if request.method == "POST":
-        for customer in customers:
-            is_checked = request.form.get(str(customer.id))
-            if is_checked:
+        all_checked = request.form.get("all")
+        if all_checked:
+            for customer in customers:
                 message = request.form.get("message")
                 if customer.can_email == 1:
                     try:
                         send_mail(email=customer.email, header=f'From {customer.company}', message=message)
                     except:
                         pass
-
                 if customer.can_mobile == 1:
                     send_sms(6305461499, message)
                     send_whatsapp(6305461499, message)
+        else:
+            for customer in customers:
+                is_checked = request.form.get(str(customer.id))
+                if is_checked:
+                    message = request.form.get("message")
+                    if customer.can_email == 1:
+                        try:
+                            send_mail(email=customer.email, header=f'From {customer.company}', message=message)
+                        except:
+                            pass
+
+                    if customer.can_mobile == 1:
+                        send_sms(6305461499, message)
+                        send_whatsapp(6305461499, message)
         return redirect(url_for('read_customers'))
     return render_template("view-customer.html",customer_size = customer_size, current_user=current_user, is_admin=is_admin(), customers=customers)
 
@@ -290,16 +305,22 @@ def register():
         email = request.form.get("email")
         password = request.form.get("password")
         company = request.form.get("company")
+        designation = request.form.get("designation")
         is_admin = 1
         new_employee = Employee(
             ename=ename, 
             password=password, 
             company=company, 
+            designation=designation,
             email=email,
             is_admin=is_admin
         )
-        db.session.add(new_employee)
-        db.session.commit()
+        try:
+            db.session.add(new_employee)
+            db.session.commit()
+        except:
+            flash("User already registered")
+            return redirect(url_for("register"))
         login_user(new_employee)
         return redirect(url_for('home'))
     return render_template("register.html")

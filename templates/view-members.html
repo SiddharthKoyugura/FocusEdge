@@ -3,7 +3,7 @@
 
 <main id="main" class="main">
 
-  <form style="margin-top: 10vh; width: 60vw; margin-left: 10vw;" method="POST" action="{{ url_for('read_members') }}">
+  <form style="margin-top: 10vh; width: 70vw; margin-left: 5vw;" method="POST" action="{{ url_for('read_members') }}">
     <div class="card-body">
       <div class="card">
         <table class="table table-striped">
@@ -12,6 +12,7 @@
               <th scope="col">id</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Designation</th>
               <th scope="col">Admin</th>
               <th scope="col">Start Date</th>
             </tr>
@@ -21,6 +22,7 @@
             <th scope="row">{{ i+1 }}</th>
             <td>{{employees[i].ename}}</td>
             <td>{{employees[i].email}}</td>
+            <td>{{employees[i].designation}}</td>
             {% if employees[i].is_admin == 1: %}
                 <td>Yes</td>
             {% else: %}

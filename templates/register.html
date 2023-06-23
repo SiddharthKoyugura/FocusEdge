@@ -28,17 +28,16 @@
 
   <!-- Template Main CSS File -->
   <link href="static/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.5.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
-
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      {% for message in messages %}
+      <script>window.alert('{{ message }}')</script>
+      {% endfor %}
+  {% endif %}
+{% endwith %}
   <main>
     <div class="container">
 
@@ -81,6 +80,14 @@
                       <div class="input-group has-validation">
                         <input type="text" name="company" class="form-control" id="yourUsername" required>
                         <div class="invalid-feedback">Please choose a Company.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourDesignation" class="form-label">Designation</label>
+                      <div class="input-group has-validation">
+                        <input type="text" name="designation" class="form-control" id="yourDesignation" required>
+                        <div class="invalid-feedback">Please provide your designation.</div>
                       </div>
                     </div>
 
