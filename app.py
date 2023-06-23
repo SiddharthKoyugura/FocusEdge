@@ -63,7 +63,6 @@ def send_mail(email, header, message):
     msg.body = message
     # send the email
     mail.send(msg)
-    print("Hello")
 
 def add_activity(title):
     current_date = datetime.now()
@@ -106,8 +105,8 @@ def load_user(user_id):
 @login_required
 def home():
     company = current_user.company
-    activites = Activity.query.filter_by(company=company).all()[::-1]
-    return render_template("index.html", activites=activites, current_user=current_user, is_admin=is_admin())
+    activities = Activity.query.filter_by(company=company).all()[::-1]
+    return render_template("index.html", activities=activities, current_user=current_user, is_admin=is_admin())
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
@@ -127,6 +126,8 @@ def create_member():
         )
         db.session.add(new_employee)
         db.session.commit()
+        add_activity(f"created {ename} employee")
+        return redirect(url_for('create_member'))
     return render_template("create-member.html", current_user=current_user, is_admin=is_admin())
 
 @app.route("/read-members")
@@ -135,6 +136,20 @@ def read_members():
     company = current_user.company
     employees = Employee.query.filter_by(company=company).all()
     return render_template("view-members.html", current_user=current_user, is_admin=is_admin(), employees=employees)
+
+@app.route("/edit-member/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit_member(id):
+    employee = db.session.get(Employee, id)
+    if request.method=="POST":
+        employee.name = request.form.get("ename")
+        employee.email = request.form.get("email")
+        employee.is_admin = request.form.get("isAdmin")
+        db.session.commit()
+        add_activity(f"Updated {request.form.get('name')} data")
+        return redirect(url_for('read_members'))
+
+    return render_template("edit-members.html", employee=employee, is_admin=is_admin())
 
 @app.route("/add-customer", methods=["GET", "POST"])
 @login_required
@@ -156,6 +171,7 @@ def add_customer():
         )
         db.session.add(new_customer)
         db.session.commit()
+        add_activity(f"created {name} customer")
         return redirect(url_for('add_customer'))
     return render_template("create-customers.html", current_user=current_user, is_admin=is_admin())
 
@@ -171,6 +187,7 @@ def edit_customer(id):
         customer.can_email = int(email)
         customer.can_mobile = int(mobile)
         db.session.commit()
+        add_activity(f"Updated {request.form.get('name')} data")
         return redirect(url_for('read_customers'))
 
     return render_template("edit-customers.html", customer=customer, is_admin=is_admin())
