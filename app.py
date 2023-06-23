@@ -33,13 +33,6 @@ class Customer(db.Model):
     can_email= db.Column(db.Integer, nullable=False)
     can_mobile= db.Column(db.Integer, nullable=False)
 
-class Activity(db.Model):
-    __tablename__="activity"
-    id = db.Column(db.Integer, primary_key=True)
-    company = db.Column(db.Text, nullable=False)
-    title = db.Column(db.Text, nullable=False)
-    date = db.Column(db.Text, nullable=False)
-
 with app.app_context():
     db.create_all()
 
@@ -81,9 +74,7 @@ def load_user(user_id):
 @app.route("/home")
 @login_required
 def home():
-    company = current_user.company
-    activities = Activity.query.filter_by(company=company).all()[::-1]
-    return render_template("index.html", current_user=current_user,activities=activities, is_admin=is_admin())
+    return render_template("index.html", current_user=current_user, is_admin=is_admin())
 
 @app.route("/create-member", methods=["GET", "POST"])
 @login_required
@@ -111,19 +102,6 @@ def read_members():
     company = current_user.company
     employees = Employee.query.filter_by(company=company).all()
     return render_template("view-members.html", current_user=current_user, is_admin=is_admin(), employees=employees)
-
-@app.route("/edit-member/<int:id>", methods=["GET", "POST"])
-@login_required
-def edit_member(id):
-    employee = db.session.get(Employee, id)
-    if request.method == "POST":
-        employee.ename = request.form.get("name")
-        employee.email = request.form.get("email")
-        employee.password = request.form.get("password")
-        employee.is_admin = request.form.get("isAdmin")
-        db.session.commit()
-        return redirect(url_for("read_members"))
-    return render_template("edit-members.html", current_user=current_user, is_admin=is_admin(), employee=employee)
 
 @app.route("/add-customer", methods=["GET", "POST"])
 @login_required
@@ -184,14 +162,11 @@ def read_customers():
                         msg.body = message
                         mail.send(msg)
                     except:
-                        print("mail not sent")
+                        pass
 
                 if customer.can_mobile == 1:
-                    try:
-                        send_sms(6305461499, message)
-                        send_whatsapp(6305461499, message)
-                    except:
-                        pass
+                    send_sms(6305461499, message)
+                    send_whatsapp(6305461499, message)
         return redirect(url_for('read_customers'))
     return render_template("view-customer.html", current_user=current_user, is_admin=is_admin(), customers=customers)
 
