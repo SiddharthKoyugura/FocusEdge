@@ -1,4 +1,4 @@
-# FocusEdge(https://focusedge.onrender.com/)
+# [FocusEdge](https://focusedge.onrender.com/)
 A CRM flask application we built for Vignan institute of Engineering and Technology Hackathon
 
 The application allows the user to have features like
