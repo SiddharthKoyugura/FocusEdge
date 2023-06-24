@@ -22,4 +22,4 @@ def send_sms(number, msg):
                           ) 
     print(message.sid)
 
-send_sms(6305461499 ,"It's working")
+# send_sms(6305461499 ,"It's working")
