@@ -10,8 +10,8 @@ The application allows the user to have features like
 ## Developers
 
 - [@Hithishini](https://github.com/Hithishini)
-- [@Dominc](https://www.github.com/DanielDominicSavioKennedy)
-- [@Sidharth](https://www.github.com/SiddharthKoyugura)
+- [@Dominic](https://www.github.com/DanielDominicSavioKennedy)
+- [@Siddharth](https://www.github.com/SiddharthKoyugura)
 
 
 ## Deployment
