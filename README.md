@@ -7,7 +7,7 @@ The application allows the user to have features like
 - Email
 
 
-## Authors
+## Developers
 
 - [@Hithishini](https://github.com/Hithishini)
 - [@Dominc](https://www.github.com/DanielDominicSavioKennedy)
